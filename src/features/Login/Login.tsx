@@ -15,6 +15,12 @@ type FormValuesType = {
     rememberMe: boolean
 }
 
+type FormikErrorType = {
+    email?: string
+    password?: string
+    rememberMe?: boolean
+}
+
 export const Login = () => {
 
     const formik = useFormik({
@@ -22,6 +28,15 @@ export const Login = () => {
             email: "",
             password: "",
             rememberMe: false
+        },
+        validate: (values: FormValuesType) => {
+            const errors: FormikErrorType = {};
+            if (!values.email) {
+                errors.email = 'Required';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address';
+            }
+            return errors;
         },
         onSubmit: (values: FormValuesType) => {
             alert(JSON.stringify(values, null, 2));
@@ -44,10 +59,11 @@ export const Login = () => {
                 <form onSubmit={formik.handleSubmit}>
                     <FormGroup>
                         <TextField name='email' label="Email" margin="normal" onChange={formik.handleChange} value={formik.values.email} />
+                        {formik.errors.email ? <div style={{color: "red"}}>{formik.errors.email}</div> : null }
                         <TextField name='password' type="password" label="Password"
                             margin="normal" onChange={formik.handleChange} value={formik.values.password}
                         />
-                        <FormControlLabel label={'Remember me'} control={<Checkbox name='rememberMe' onChange={formik.handleChange} value={formik.values.rememberMe} />} />
+                        <FormControlLabel label={'Remember me'} control={<Checkbox name='rememberMe' onChange={formik.handleChange} checked={formik.values.rememberMe} />} />
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Login
                         </Button>
