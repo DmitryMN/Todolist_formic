@@ -1,4 +1,5 @@
-import { Dispatch } from "redux"
+import { Dispatch } from "redux";
+import { authApi } from "../../api/todolists-api";
 
 const initialState = {
     isLoggedIn: false
@@ -20,3 +21,9 @@ export const setIsLoggedInAC = (value: boolean) =>
 
 //type
  type ActionType = ReturnType<typeof setIsLoggedInAC>
+
+ export const initializeAppTC = () => {
+     return (dispatch: Dispatch) => {
+
+     }
+ }
