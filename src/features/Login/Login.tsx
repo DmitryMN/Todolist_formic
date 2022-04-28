@@ -47,6 +47,7 @@ export const Login = () => {
         },
         onSubmit: (values: FormValuesType) => {
             alert(JSON.stringify(values, null, 2));
+            formik.resetForm();
         }
     });
 
