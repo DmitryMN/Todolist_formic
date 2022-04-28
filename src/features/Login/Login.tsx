@@ -36,6 +36,13 @@ export const Login = () => {
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                 errors.email = 'Invalid email address';
             }
+
+            if(!values.password) {
+                errors.password = 'Required'
+            } else if(values.password.length < 8) {
+                errors.password = 'minimum password length 8 characters';
+            }
+
             return errors;
         },
         onSubmit: (values: FormValuesType) => {
@@ -58,12 +65,11 @@ export const Login = () => {
                 </FormLabel>
                 <form onSubmit={formik.handleSubmit}>
                     <FormGroup>
-                        <TextField name='email' label="Email" margin="normal" onChange={formik.handleChange} value={formik.values.email} />
-                        {formik.errors.email ? <div style={{color: "red"}}>{formik.errors.email}</div> : null }
-                        <TextField name='password' type="password" label="Password"
-                            margin="normal" onChange={formik.handleChange} value={formik.values.password}
-                        />
-                        <FormControlLabel label={'Remember me'} control={<Checkbox name='rememberMe' onChange={formik.handleChange} checked={formik.values.rememberMe} />} />
+                        <TextField label="Email" margin="normal" {...formik.getFieldProps("email")} />
+                        {formik.touched.email && formik.errors.email && <div style={{color: "red"}}>{formik.errors.email}</div>}
+                        <TextField type="password" label="Password" margin="normal" {...formik.getFieldProps("password")} />
+                        {formik.touched.password && formik.errors.password && <div style={{color: "red"}}>{formik.errors.password}</div>}
+                        <FormControlLabel label={'Remember me'} control={<Checkbox {...formik.getFieldProps("'rememberMe'")}/>} />
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Login
                         </Button>
