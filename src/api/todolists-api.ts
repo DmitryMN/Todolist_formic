@@ -47,8 +47,8 @@ export const authApi = {
 export type LoginParamsType = {
     email: string
     password: string
-    rememberMe: boolean 
-    captcha: boolean
+    rememberMe?: boolean 
+    captcha?: string
 }
 
 export type TodolistType = {

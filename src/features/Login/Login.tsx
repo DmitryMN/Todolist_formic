@@ -8,6 +8,9 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
+import {loginTC} from '../Login/auth-reducer';
+
+
 
 type FormValuesType = {
     email: string
@@ -27,7 +30,7 @@ export const Login = () => {
         initialValues: {
             email: "",
             password: "",
-            rememberMe: false
+            rememberMe: false,
         },
         validate: (values: FormValuesType) => {
             const errors: FormikErrorType = {};
@@ -47,6 +50,7 @@ export const Login = () => {
         },
         onSubmit: (values: FormValuesType) => {
             alert(JSON.stringify(values, null, 2));
+            loginTC(values);
             formik.resetForm();
         }
     });
