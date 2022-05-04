@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useDebugValue } from 'react'
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
 import {loginTC} from '../Login/auth-reducer';
+import { useDispatch } from 'react-redux';
 
 
 
@@ -25,6 +26,8 @@ type FormikErrorType = {
 }
 
 export const Login = () => {
+
+    const dispatch = useDispatch();
 
     const formik = useFormik({
         initialValues: {
@@ -49,8 +52,8 @@ export const Login = () => {
             return errors;
         },
         onSubmit: (values: FormValuesType) => {
-            alert(JSON.stringify(values, null, 2));
-            loginTC(values);
+            debugger;
+            dispatch(loginTC(values));
             formik.resetForm();
         }
     });
