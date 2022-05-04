@@ -1,4 +1,4 @@
-import React, { useDebugValue } from 'react'
+import React from 'react'
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
 import {loginTC} from '../Login/auth-reducer';
 import { useDispatch } from 'react-redux';
+import {LoginParamsType} from '../../api/todolists-api';
 
 
 
@@ -17,12 +18,6 @@ type FormValuesType = {
     email: string
     password: string
     rememberMe: boolean
-}
-
-type FormikErrorType = {
-    email?: string
-    password?: string
-    rememberMe?: boolean
 }
 
 export const Login = () => {
@@ -36,7 +31,8 @@ export const Login = () => {
             rememberMe: false,
         },
         validate: (values: FormValuesType) => {
-            const errors: FormikErrorType = {};
+            const errors: Partial<Omit <LoginParamsType, 'captcha'>> = {
+            };
             if (!values.email) {
                 errors.email = 'Required';
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
