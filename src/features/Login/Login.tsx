@@ -8,9 +8,11 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
-import {loginTC} from '../Login/auth-reducer';
-import { useDispatch } from 'react-redux';
-import {LoginParamsType} from '../../api/todolists-api';
+import { loginTC } from '../Login/auth-reducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoginParamsType } from '../../api/todolists-api';
+import { AppRootStateType } from '../../app/store';
+import {Navigate} from 'react-router-dom';
 
 
 
@@ -23,6 +25,7 @@ type FormValuesType = {
 export const Login = () => {
 
     const dispatch = useDispatch();
+    const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn);
 
     const formik = useFormik({
         initialValues: {
@@ -31,7 +34,7 @@ export const Login = () => {
             rememberMe: false,
         },
         validate: (values: FormValuesType) => {
-            const errors: Partial<Omit <LoginParamsType, 'captcha'>> = {
+            const errors: Partial<Omit<LoginParamsType, 'captcha'>> = {
             };
             if (!values.email) {
                 errors.email = 'Required';
@@ -39,9 +42,9 @@ export const Login = () => {
                 errors.email = 'Invalid email address';
             }
 
-            if(!values.password) {
+            if (!values.password) {
                 errors.password = 'Required'
-            } else if(values.password.length < 8) {
+            } else if (values.password.length < 8) {
                 errors.password = 'minimum password length 8 characters';
             }
 
@@ -53,6 +56,8 @@ export const Login = () => {
             formik.resetForm();
         }
     });
+
+    if(isLoggedIn) return <Navigate to="/" />
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
@@ -70,10 +75,10 @@ export const Login = () => {
                 <form onSubmit={formik.handleSubmit}>
                     <FormGroup>
                         <TextField label="Email" margin="normal" {...formik.getFieldProps("email")} />
-                        {formik.touched.email && formik.errors.email && <div style={{color: "red"}}>{formik.errors.email}</div>}
+                        {formik.touched.email && formik.errors.email && <div style={{ color: "red" }}>{formik.errors.email}</div>}
                         <TextField type="password" label="Password" margin="normal" {...formik.getFieldProps("password")} />
-                        {formik.touched.password && formik.errors.password && <div style={{color: "red"}}>{formik.errors.password}</div>}
-                        <FormControlLabel label={'Remember me'} control={<Checkbox {...formik.getFieldProps("'rememberMe'")}/>} />
+                        {formik.touched.password && formik.errors.password && <div style={{ color: "red" }}>{formik.errors.password}</div>}
+                        <FormControlLabel label={'Remember me'} control={<Checkbox {...formik.getFieldProps("'rememberMe'")} />} />
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Login
                         </Button>

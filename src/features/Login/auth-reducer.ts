@@ -39,3 +39,13 @@ export const loginTC = (data: any) => {
         });
     }
 }
+
+export const initializeAppTC = () => (dispatch: Dispatch) => {
+    authApi.me().then(res => {
+        if (res.data.resultCode === 0) {
+            dispatch(setIsLoggedInAC(true));
+        } else {
+        }
+    })
+ }
+ 
