@@ -40,12 +40,15 @@ export const loginTC = (data: any) => {
     }
 }
 
-export const initializeAppTC = () => (dispatch: Dispatch) => {
+export const initializeAppTC = () => (dispatch: Dispatch<ActionType>) => {
     authApi.me().then(res => {
         if (res.data.resultCode === 0) {
             dispatch(setIsLoggedInAC(true));
         } else {
+            handleServerAppError(res.data, dispatch);
         }
-    })
+    }).catch(error => {
+        handleServerNetworkError(error, dispatch);
+    });
  }
  
