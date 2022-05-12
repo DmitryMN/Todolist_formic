@@ -48,9 +48,7 @@ function App({demo = false}: PropsType) {
                     <Typography variant="h6">
                         News
                     </Typography>
-                    <Button color="inherit">
-                        <Link to="/login">Login</Link>
-                    </Button>
+                    {isInitialized ? <Button color="inherit">Log out</Button> : <Button color="inherit"><Link to="/login">Login</Link></Button>}
                 </Toolbar>
                 {status === 'loading' && <LinearProgress/>}
             </AppBar>
