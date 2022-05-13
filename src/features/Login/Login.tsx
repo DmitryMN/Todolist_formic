@@ -51,7 +51,6 @@ export const Login = () => {
             return errors;
         },
         onSubmit: (values: FormValuesType) => {
-            debugger;
             dispatch(loginTC(values));
             formik.resetForm();
         }
